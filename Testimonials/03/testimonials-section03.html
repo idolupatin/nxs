@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לקוחות ממליצים</title>
+    <style>
+        :root {
+            --bg-main: #ffffff;
+            --bg-gradient: #f4f7fb;
+            --black: #0f172a; 
+            --white: #ffffff;
+            --charcoal: #334155;
+            --blue-primary: #2563eb;
+            --blue-light: #eff6ff;
+            
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Assistant', 'Heebo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, var(--bg-gradient) 0%, var(--bg-main) 80%);
+        }
+
+        .testimonials-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            text-align: center;
+            max-width: 540px;
+            margin: 0 auto 50px auto;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 9999px; 
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            
+            background: rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            color: var(--black); 
+        }
+
+        .header-content h2 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 0 0 16px 0;
+            color: var(--black);
+        }
+
+        .header-content p {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .columns-container {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            max-height: 700px;
+            overflow: hidden;
+            position: relative;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+        }
+
+        .column-wrapper {
+            flex: 1;
+            max-width: 320px;
+            overflow: hidden;
+        }
+
+        .column-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 24px;
+            animation: scroll-up var(--duration, 20s) linear infinite;
+        }
+
+        @keyframes scroll-up {
+            0% {
+                transform: translateY(0%);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        .card {
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 1);
+        }
+
+        .card p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 24px 0;
+            color: var(--charcoal);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: var(--blue-light); 
+        }
+
+        .user-info .name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .user-info .role {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        @media (max-width: 768px) {
+            .column-wrapper:nth-child(2),
+            .column-wrapper:nth-child(3) { display: none; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .column-wrapper:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="testimonials-section">
+        <div class="header-content">
+            <h2>הופכים רעיונות מורכבים<br> לסיפורי הצלחה</h2>
+            <p>הצטרפו לאלפי עסקים מרוצים</p>
+        </div>
+
+        <div class="columns-container">
+            <div class="column-wrapper">
+                <div class="column-inner" id="col-1" style="--duration: 18s;"></div>
+            </div>
+            <div class="column-wrapper">
+                <div class="column-inner" id="col-2" style="--duration: 22s;"></div>
+            </div>
+            <div class="column-wrapper">
+                <div class="column-inner" id="col-3" style="--duration: 20s;"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const testimonials = [
+            { text: "מערכת ה-ERP הזו שינתה לחלוטין את הפעילות היומיומית שלנו, וייעלה בצורה מושלמת את הכספים והמלאי. אנו נשארים פרודוקטיביים מכל מקום.", image: "https://randomuser.me/api/portraits/women/10.jpg", name: "אמה תומפסון", role: "מנהלת תפעול" },
+            { text: "הטמעת המערכת הייתה חלקה להפליא. ממשק המשתמש מותאם אישית ברמה גבוהה, מה שהפך את הדרכת הצוות שלנו לקלה ופשוטה.", image: "https://randomuser.me/api/portraits/men/12.jpg", name: "ג'יימס וילסון", role: "מנהל מערכות מידע" },
+            { text: "צוות התמיכה שלהם יוצא מן הכלל, הם ליוו אותנו לאורך תהליך ההקמה ומספקים עזרה שוטפת ברמה הגבוהה ביותר.", image: "https://randomuser.me/api/portraits/women/14.jpg", name: "שרה ג'נקינס", role: "מנהלת הצלחת לקוחות" },
+            { text: "האינטגרציה החלקה שיפרה את היעילות שלנו בכל התחומים. אני ממליץ בחום על המערכת בזכות הממשק האינטואיטיבי שלה.", image: "https://randomuser.me/api/portraits/men/16.jpg", name: "מייקל בראון", role: "מנכ\"ל" },
+            { text: "התכונות המתקדמות והתמיכה המהירה שדרגו את זרימת העבודה שלנו, והפכו את המחלקה כולה ליעילה הרבה יותר.", image: "https://randomuser.me/api/portraits/women/18.jpg", name: "ג'סיקה טיילור", role: "מנהלת פרויקטים" },
+            { text: "ההטמעה עלתה על כל הציפיות שלנו. היא ייעלה את התהליכים שלנו ושיפרה באופן ניכר את הביצועים הכוללים.", image: "https://randomuser.me/api/portraits/women/20.jpg", name: "אוליביה דייוויס", role: "אנליסטית עסקית" },
+            { text: "הפעילות העסקית עלתה רמה בזכות העיצוב הידידותי למשתמש. המשוב מהצוותים הפנימיים שלנו פשוט מעולה.", image: "https://randomuser.me/api/portraits/men/22.jpg", name: "דיוויד מילר", role: "סמנכ\"ל שיווק" },
+            { text: "הם סיפקו פתרון שענה במדויק על הצרכים שלנו. המערכת באמת מבינה את המטרות שלנו ומשפרת את העבודה היומיומית.", image: "https://randomuser.me/api/portraits/women/24.jpg", name: "סופיה אנדרסון", role: "מנהלת מכירות" },
+            { text: "ההמרות שלנו ברשת זכו לזינוק אדיר בזכות ה-ERP הזה. המערכת השתלבה בקלות ושדרגה את כל אסטרטגיית האיקומרס שלנו.", image: "https://randomuser.me/api/portraits/men/26.jpg", name: "דניאל גרסיה", role: "מנהל איקומרס" }
+        ];
+
+        function createCardHTML(item) {
+            return `
+                <div class="card">
+                    <p>"${item.text}"</p>
+                    <div class="user-profile">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="user-info">
+                            <div class="name">${item.name}</div>
+                            <div class="role">${item.role}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function populateColumn(elementId, items) {
+            const container = document.getElementById(elementId);
+            const doubledItems = [...items, ...items];
+            container.innerHTML = doubledItems.map(createCardHTML).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateColumn('col-1', testimonials.slice(0, 3));
+            populateColumn('col-2', testimonials.slice(3, 6));
+            populateColumn('col-3', testimonials.slice(6, 9));
+        });
+    </script>
+
+</body>
+</html>

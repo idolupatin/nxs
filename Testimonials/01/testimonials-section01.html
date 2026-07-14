@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Upward Scroll Testimonials</title>
+    <style>
+        :root {
+            --bg-main: #09090b;
+            --text-main: #f4f4f5;
+            --text-sub: #a1a1aa;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            /* Added a subtle background glow to enhance the glass effect */
+            background-image: radial-gradient(circle at 50% 0%, rgba(39, 39, 42, 0.4) 0%, transparent 70%);
+        }
+
+        .testimonials-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            text-align: center;
+            max-width: 540px;
+            margin: 0 auto 50px auto;
+        }
+
+        /* Liquid Glass ISO27 Effect for the Tag */
+        .tag {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 9999px; /* Fully rounded corners */
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            
+            /* Glassmorphism styles */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .header-content h2 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 0 0 16px 0;
+        }
+
+        .header-content p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* Columns container with top and bottom fade mask */
+        .columns-container {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            max-height: 700px;
+            overflow: hidden;
+            position: relative;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+        }
+
+        .column-wrapper {
+            flex: 1;
+            max-width: 320px;
+            overflow: hidden;
+        }
+
+        /* Smooth and continuous upward scrolling animation */
+        .column-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 24px;
+            animation: scroll-up var(--duration, 20s) linear infinite;
+        }
+
+        /* Movement from 0% to -50% to move elements strictly upward */
+        @keyframes scroll-up {
+            0% {
+                transform: translateY(0%);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        /* Liquid Glass ISO27 Effect for the Card */
+        .card {
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+
+            /* Glassmorphism styles */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 24px 0;
+            opacity: 0.9;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-info .name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-info .role {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .column-wrapper:nth-child(2),
+            .column-wrapper:nth-child(3) { display: none; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .column-wrapper:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="testimonials-section">
+        <div class="header-content">
+            <span class="tag">Testimonials</span>
+            <h2>What our users say</h2>
+            <p>See what our customers have to say about us.</p>
+        </div>
+
+        <div class="columns-container">
+            <div class="column-wrapper">
+                <div class="column-inner" id="col-1" style="--duration: 18s;"></div>
+            </div>
+            <div class="column-wrapper">
+                <div class="column-inner" id="col-2" style="--duration: 22s;"></div>
+            </div>
+            <div class="column-wrapper">
+                <div class="column-inner" id="col-3" style="--duration: 20s;"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const testimonials = [
+            { text: "This ERP transformed our daily operations, perfectly streamlining finance and inventory. We stay productive from anywhere.", image: "https://randomuser.me/api/portraits/women/10.jpg", name: "Emma Thompson", role: "Operations Director" },
+            { text: "The ERP implementation was incredibly smooth. The UI is highly customizable, making our team training effortless.", image: "https://randomuser.me/api/portraits/men/12.jpg", name: "James Wilson", role: "IT Manager" },
+            { text: "Their support team has been outstanding, guiding us through the setup process and providing top-notch ongoing help.", image: "https://randomuser.me/api/portraits/women/14.jpg", name: "Sarah Jenkins", role: "Customer Success Lead" },
+            { text: "Seamless integration improved our efficiency across the board. I highly recommend it for the intuitive interface.", image: "https://randomuser.me/api/portraits/men/16.jpg", name: "Michael Brown", role: "CEO" },
+            { text: "Robust features and fast support leveled up our workflow, making our entire department significantly more efficient.", image: "https://randomuser.me/api/portraits/women/18.jpg", name: "Jessica Taylor", role: "Project Manager" },
+            { text: "Implementation went beyond our expectations. It optimized our processes and visibly improved overall performance.", image: "https://randomuser.me/api/portraits/women/20.jpg", name: "Olivia Davis", role: "Business Analyst" },
+            { text: "Business operations leveled up with this user-friendly design. The feedback from our internal teams has been great.", image: "https://randomuser.me/api/portraits/men/22.jpg", name: "David Miller", role: "Marketing Director" },
+            { text: "They provided a solution that perfectly met our needs. It genuinely understood our goals and enhanced our daily work.", image: "https://randomuser.me/api/portraits/women/24.jpg", name: "Sophia Anderson", role: "Sales Lead" },
+            { text: "Our online conversions saw a massive boost with this ERP. It integrated easily and elevated our entire e-commerce strategy.", image: "https://randomuser.me/api/portraits/men/26.jpg", name: "Daniel Garcia", role: "E-commerce Manager" }
+        ];
+
+        function createCardHTML(item) {
+            return `
+                <div class="card">
+                    <p>"${item.text}"</p>
+                    <div class="user-profile">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="user-info">
+                            <div class="name">${item.name}</div>
+                            <div class="role">${item.role}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function populateColumn(elementId, items) {
+            const container = document.getElementById(elementId);
+            // Duplicating the array ensures the upward scroll never runs out of content
+            const doubledItems = [...items, ...items];
+            container.innerHTML = doubledItems.map(createCardHTML).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateColumn('col-1', testimonials.slice(0, 3));
+            populateColumn('col-2', testimonials.slice(3, 6));
+            populateColumn('col-3', testimonials.slice(6, 9));
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<style>
+    .contact-component {
+        --cc-text-main: #0F172A;
+        --cc-text-sub: #64748B;
+        --cc-primary: #2563EB;
+        --cc-primary-hover: #1D4ED8;
+        --cc-error: #ef4444; 
+        --cc-glass-bg: rgba(255, 255, 255, 0.65);
+        --cc-glass-border: rgba(255, 255, 255, 0.5);
+        --cc-input-bg: rgba(255, 255, 255, 0.9);
+        
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        direction: rtl;
+        padding: clamp(40px, 8vw, 80px) 20px;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; 
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-component-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between; 
+        margin: 0 auto; 
+        max-width: 1200px; 
+        width: 100%;
+        gap: clamp(40px, 8vw, 100px); 
+        z-index: 2;
+    }
+
+    .contact-component-text {
+        flex: 1 1 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start; 
+        gap: 35px; 
+    }
+
+    .contact-component-title {
+        font-size: clamp(3rem, 5vw + 1rem, 5.5rem); 
+        font-weight: 900;
+        letter-spacing: -2px;
+        margin: 0;
+        line-height: 1.1;
+        text-align: right; 
+        
+        background: linear-gradient(135deg, #000000 0%, #1A1A1A 40%, #2D3139 75%, #41454E 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.02)); 
+    }
+
+    .contact-component-subtitle {
+        font-size: clamp(1.15rem, 2vw, 1.45rem);
+        color: var(--cc-text-sub);
+        margin: 0; 
+        line-height: 1.4;
+        font-weight: 500;
+        text-align: right;
+    }
+
+    .contact-component-form-wrapper {
+        flex: 1 1 50%;
+        width: 100%;
+        max-width: 500px;
+        background: var(--cc-glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--cc-glass-border);
+        border-radius: clamp(30px, 5vw, 50px);
+        padding: clamp(25px, 4vw, 40px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255,255,255,0.5);
+        box-sizing: border-box;
+    }
+
+    .contact-component-group {
+        position: relative;
+        margin-bottom: clamp(20px, 3vw, 26px);
+    }
+
+    .contact-component-input, 
+    .contact-component-select {
+        width: 100%;
+        padding: 12px 24px;
+        border-radius: 100px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: var(--cc-input-bg);
+        font-size: 15.3px;
+        color: var(--cc-text-main);
+        font-family: inherit;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+        text-align: right; 
+    }
+
+    .contact-component-input:focus,
+    .contact-component-select:focus {
+        outline: none;
+        border-color: var(--cc-primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .contact-component-input::placeholder {
+        color: #94A3B8;
+    }
+
+    .contact-component-select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: left 20px center; 
+        background-size: 16px;
+        padding: 12px 24px 12px 45px; 
+        cursor: pointer;
+    }
+
+    .contact-component-select:invalid {
+        color: #94A3B8;
+    }
+
+    .contact-component-select option {
+        color: var(--cc-text-main);
+        background: #FFFFFF;
+    }
+
+    .contact-component-error-msg {
+        position: absolute;
+        bottom: -20px;
+        right: 15px;
+        color: var(--cc-error);
+        font-size: 0.8rem;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(-5px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    .contact-component-input.has-error,
+    .contact-component-select.has-error {
+        border-color: var(--cc-error);
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    .contact-component-group.show-error .contact-component-error-msg {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .contact-component-submit {
+        width: 100%;
+        background-color: var(--cc-primary);
+        color: #FFFFFF;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 100px;
+        font-size: 15.3px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        font-family: inherit;
+        margin-top: 10px;
+    }
+
+    .contact-component-submit:hover {
+        background-color: var(--cc-primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+    }
+
+    @media (max-width: 850px) {
+        .contact-component {
+            min-height: auto; 
+            padding: 60px 15px;
+        }
+        
+        .contact-component-container {
+            flex-direction: column;
+            gap: 40px; 
+            align-items: center; 
+        }
+
+        .contact-component-text {
+            order: -1; 
+            align-items: flex-start; 
+            max-width: 500px; 
+            width: 100%;
+            gap: 25px; 
+        }
+        
+        .contact-component-title {
+            font-size: clamp(3.5rem, 12vw, 4.5rem); 
+            text-align: right; 
+        }
+
+        .contact-component-subtitle {
+            text-align: right;
+        }
+
+        .contact-component-form-wrapper {
+            max-width: 500px; 
+            width: 100%;
+        }
+    }
+</style>
+
+<section class="contact-component">
+    <div class="contact-component-container">
+        
+        <div class="contact-component-text">
+            <h2 class="contact-component-title">בואו נדבר על<br>הפרויקט שלכם</h2>
+            <p class="contact-component-subtitle">ספרו לנו על החלומות שלכם, אנחנו נדאג לכל השאר.</p>
+        </div>
+
+        <div class="contact-component-form-wrapper">
+            <form id="nexus-contact-form" action="#" method="POST" novalidate>
+                
+                <div class="contact-component-group">
+                    <input type="text" class="contact-component-input" placeholder="שם מלא" required>
+                    <span class="contact-component-error-msg">שדה זה הוא חובה</span>
+                </div>
+                
+                <div class="contact-component-group">
+                    <input type="tel" class="contact-component-input" placeholder="טלפון" required>
+                    <span class="contact-component-error-msg">שדה זה הוא חובה</span>
+                </div>
+                
+                <div class="contact-component-group">
+                    <input type="email" class="contact-component-input" placeholder="אימייל" required>
+                    <span class="contact-component-error-msg">יש להזין אימייל תקין</span>
+                </div>
+                
+                <div class="contact-component-group">
+                    <select class="contact-component-select" name="service" required>
+                        <option value="" disabled selected hidden>במה נוכל לעזור?</option>
+                        <option value="פיתוח">פיתוח אתרים</option>
+                        <option value="עיצוב UX/UI">עיצוב UX/UI</option>
+                        <option value="שיווק דיגיטלי">שיווק דיגיטלי</option>
+                        <option value="מיתוג">מיתוג עסקי</option>
+                    </select>
+                    <span class="contact-component-error-msg">יש לבחור אפשרות מהרשימה</span>
+                </div>
+
+                <button type="submit" class="contact-component-submit">שליחה</button>
+                
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('nexus-contact-form');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // TODO: Currently does nothing on submit. Change this later to handle backend logic.
+
+                let isValid = true;
+                const inputs = form.querySelectorAll('input, select');
+                
+                inputs.forEach(input => {
+                    const group = input.closest('.contact-component-group');
+                    
+                    if (!input.checkValidity()) {
+                        input.classList.add('has-error');
+                        group.classList.add('show-error');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('has-error');
+                        group.classList.remove('show-error');
+                    }
+                });
+            });
+
+            form.querySelectorAll('input, select').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.classList.remove('has-error');
+                        this.closest('.contact-component-group').classList.remove('show-error');
+                    }
+                });
+            });
+        }
+    });
+</script>

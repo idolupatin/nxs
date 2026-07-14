@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Component</title>
+    <style>
+        :root {
+            --bg-color: #FAFAFA;
+            --text-main: #0F172A;
+            --text-sub: #64748B;
+            --primary: #2563EB; 
+            --gradient-start: #1E3A8A; 
+            --gradient-mid: #2563EB;   
+            --gradient-end: #60A5FA;   
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .hero-component {
+            position: relative;
+            background-color: #FFFFFF;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .hero-component::before, .hero-component::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hero-component::before {
+            width: 500px;
+            height: 500px;
+            background-color: var(--primary);
+            top: -10%;
+            right: -10%;
+        }
+
+        .hero-component::after {
+            width: 400px;
+            height: 400px;
+            background-color: #8B5CF6;
+            bottom: -5%;
+            left: -5%;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 20;
+            max-width: 900px;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .hero-text-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px; 
+            margin-bottom: 35px; 
+            width: 100%;
+            max-width: 600px; 
+        }
+
+        .title {
+            font-size: clamp(2.8rem, 5vw + 1.5rem, 5rem);
+            font-weight: 900;
+            letter-spacing: clamp(-1.5px, -0.4vw, -3px);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0; 
+            line-height: 1.1;
+            text-align: center;
+            width: 100%;
+        }
+
+        .subtitle {
+            font-size: clamp(1.15rem, 2vw + 0.5rem, 1.45rem);
+            color: var(--text-sub);
+            margin: 0; 
+            line-height: 1.5;
+            font-weight: 500;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .action-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; 
+            width: 100%;
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: #FFFFFF;
+            border: none;
+            padding: clamp(12px, 2.5vw, 10px) clamp(24px, 6vw, 10px);
+            border-radius: 40px;
+            font-size: clamp(0.95rem, 2.5vw + 0.2rem, 1.25rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap; 
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background-color: #1D4ED8;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        .social-proof-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(6px, 2vw, 10px); 
+            margin-top: 15px;
+        }
+
+        .avatar-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .small-avatar {
+            width: clamp(24px, 6vw, 38px); 
+            height: clamp(24px, 6vw, 38px);
+            border-radius: 50%;
+            border: 2px solid #FFFFFF; 
+            object-fit: cover;
+            margin-right: clamp(-14px, -3vw, -12px); 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            background-color: #FFFFFF;
+            box-sizing: border-box;
+        }
+        
+        .small-avatar:first-child {
+            margin-right: 1px;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            direction: ltr; 
+        }
+
+        .rating-number {
+            font-weight: 600;
+            font-size: clamp(0.95rem, 2.5vw, 1.10rem);
+            color: var(--text-main);
+        }
+
+        .stars {
+            color: #F59E0B;
+            letter-spacing: -2px;
+            font-size: clamp(0.85rem, 2vw, 1rem); 
+        }
+
+        .cursors-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15; 
+        }
+
+        .cursor-wrapper {
+            position: absolute;
+            opacity: 0;
+            animation: fadeInCursor 1s ease-out forwards;
+            transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .evade-container {
+            position: relative;
+            transition: transform 0.2s ease-out; 
+            display: inline-block;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.1));
+        }
+
+        .avatar-img {
+            width: clamp(48px, 6vw, 60px);
+            height: clamp(48px, 6vw, 60px);
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .cursor-tag {
+            color: #FFFFFF;
+            font-size: clamp(12px, 1.5vw, 14px);
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            position: absolute; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .cursor-icon {
+            width: clamp(20px, 2.5vw, 24px);
+            height: clamp(20px, 2.5vw, 24px);
+            position: absolute;
+            z-index: 10;
+        }
+
+        @keyframes fadeInCursor {
+            to { opacity: 0.95; }
+        }
+
+        #cursor-1 { top: 15%; left: 55%; animation: float1 12s ease-in-out infinite, fadeInCursor 1s forwards; }
+        #cursor-1 .cursor-tag { background-color: #10B981; top: -25px; right: -15px; transform: rotate(5deg); }
+        #cursor-1 .cursor-icon { fill: #10B981; bottom: -15px; left: -12px; transform: rotate(-110deg); }
+
+        #cursor-2 { top: 60%; left: 15%; animation: float2 15s ease-in-out infinite, fadeInCursor 1s forwards; animation-delay: 0.2s; }
+        #cursor-2 .cursor-tag { background-color: #3B82F6; bottom: -25px; left: -15px; transform: rotate(-10deg); }
+        #cursor-2 .cursor-icon { fill: #3B82F6; top: -15px; right: -15px; transform: rotate(75deg); }
+
+        #cursor-3 { top: 65%; right: 18%; animation: float3 14s ease-in-out infinite, fadeInCursor 1s forwards; animation-delay: 0.4s; }
+        #cursor-3 .cursor-tag { background-color: #A855F7; bottom: -25px; right: -15px; transform: rotate(10deg); }
+        #cursor-3 .cursor-icon { fill: #EC4899; top: -15px; left: -15px; transform: rotate(-15deg); } 
+
+        #cursor-4 { top: 25%; left: 10%; animation: float4 11s ease-in-out infinite, fadeInCursor 1s forwards; animation-delay: 0.6s; }
+        #cursor-4 .cursor-tag { background-color: #F59E0B; top: -25px; left: -15px; transform: rotate(-5deg); }
+        #cursor-4 .cursor-icon { fill: #F59E0B; bottom: -15px; right: -15px; transform: rotate(155deg); }
+
+        @keyframes float1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -20px); } }
+        @keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, -30px); } }
+        @keyframes float3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-20px, 30px); } }
+        @keyframes float4 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(40px, 20px); } }
+
+        @media (max-width: 768px) {
+            .social-proof-wrapper { 
+                flex-direction: row; 
+                flex-wrap: wrap;
+            }
+
+            #cursor-1 { top: 22%; left: 65%; }
+            #cursor-4 { top: 20%; left: 10%; }
+            #cursor-2 { top: 80%; left: 18%; } 
+            #cursor-3 { top: 75%; right: 10%; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="hero-component">
+        <div class="content-wrapper">
+            
+            <div class="hero-text-group">
+                <h1 class="title">כל מה שדמיינתם<br>במקום אחד</h1>
+                <p class="subtitle">מינימום התערבות, מקסימום תוצאות.</p>
+            </div>
+            
+            <div class="action-area">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="cta-button">תיאום פגישה</a>
+                
+                <div class="social-proof-wrapper">
+                    <div class="rating-box">
+                        <span class="rating-number">4.8</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+
+                    <div class="avatar-group">
+                        <img src="https://i.pravatar.cc/100?img=68" alt="Client" class="small-avatar" style="z-index: 5;">
+                        <img src="https://i.pravatar.cc/100?img=47" alt="Client" class="small-avatar" style="z-index: 4;">
+                        <img src="https://i.pravatar.cc/100?img=33" alt="Client" class="small-avatar" style="z-index: 3;">
+                        <img src="https://i.pravatar.cc/100?img=15" alt="Client" class="small-avatar" style="z-index: 2;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cursors-container">
+            <div class="cursor-wrapper" id="cursor-1">
+                <div class="evade-container">
+                    <img src="https://i.pravatar.cc/100?img=5" alt="Avatar" class="avatar-img">
+                    <div class="cursor-tag">Epic</div>
+                    <svg class="cursor-icon" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="miter">
+                        <path d="M3 2 L3 21 L9.5 14.5 L18 14 Z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="cursor-wrapper" id="cursor-2">
+                <div class="evade-container">
+                    <img src="https://i.pravatar.cc/100?img=11" alt="Avatar" class="avatar-img">
+                    <div class="cursor-tag">wow</div>
+                    <svg class="cursor-icon" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="miter">
+                        <path d="M3 2 L3 21 L9.5 14.5 L18 14 Z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="cursor-wrapper" id="cursor-3">
+                <div class="evade-container">
+                    <img src="https://i.pravatar.cc/100?img=12" alt="Avatar" class="avatar-img">
+                    <div class="cursor-tag">Amazing</div>
+                    <svg class="cursor-icon" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="miter">
+                        <path d="M3 2 L3 21 L9.5 14.5 L18 14 Z"/>
+                    </svg>
+                </div>
+            </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const threshold = 120; 
+
+            document.querySelectorAll('.evade-container').forEach(container => {
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const distX = mouseX - centerX;
+                const distY = mouseY - centerY;
+                const distance = Math.sqrt(distX * distX + distY * distY);
+
+                if (distance < threshold) {
+                    const angle = Math.atan2(distY, distX);
+                    const pushForce = threshold - distance; 
+                    const pushX = -Math.cos(angle) * pushForce;
+                    const pushY = -Math.sin(angle) * pushForce;
+                    
+                    container.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                } else {
+                    container.style.transform = `translate(0px, 0px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

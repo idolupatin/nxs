@@ -1,0 +1,163 @@
+body {
+    margin: 0;
+    background-color: #f1f3f4;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: "Google Sans Flex", sans-serif;
+}
+
+#dotGrid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Main content container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Title configuration */
+.pixel-title {
+    margin: 0;
+    color: #121317;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    text-align: center;
+    /* Scales gradually from 40px on small screens to 107px on large screens */
+    font-size: clamp(40px, 8vw, 107px);
+    /* Mobile padding spacing */
+    padding: 0px 0px 60px;
+}
+
+/* Desktop padding adjustments for the title */
+@media (min-width: 768px) {
+    .pixel-title {
+        padding: 36px 0px 60px;
+    }
+}
+
+/* The untyped text takes up physical space but is invisible */
+#untypedText {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* The custom gradient cursor - Exact match to image */
+.custom-cursor {
+    position: relative;
+    display: inline-block;
+    width: 4px; /* Fixed width for precision */
+    height: 1.05em;
+    border-radius: 4px;
+    /* Clean gradient matching the Google colors from the image */
+    background: linear-gradient(180deg, #4285F4 0%, #4285F4 45%, #34A853 65%, #FBBC04 82%, #EA4335 100%);
+    vertical-align: middle;
+    transform: translateY(-0.05em);
+    margin: 0 4px;
+    /* Soft uniform blur gives the exact soft-edge/distorted look */
+    filter: blur(0.8px);
+    animation: blink 1s step-end infinite;
+    transition: opacity 0.3s ease;
+}
+
+/* Hidden state at the end */
+.custom-cursor.hide {
+    opacity: 0 !important;
+    animation: none;
+}
+
+/* Base blink opacity set to 0.9 for a prominent glow */
+@keyframes blink {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 0; }
+}
+
+/* Flexbox container for buttons */
+.cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, visibility 0s 0.8s;
+}
+
+.cta-buttons.show-elements {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, visibility 0s 0s;
+}
+
+/* Base button styles */
+.btn {
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+/* Desktop font size for buttons */
+@media (min-width: 768px) {
+    .btn {
+        font-size: 17.5px;
+    }
+}
+
+/* Dark primary button styling */
+.btn-dark {
+    background-color: #121317;
+    color: #ffffff;
+}
+
+.btn-dark:hover {
+    background-color: #212329;
+}
+
+.apple-svg {
+    width: 14px;
+    height: 17px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Light secondary button styling */
+.btn-light {
+    background-color: #ffffff;
+    color: #111111;
+    border: 1px solid #dadce0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-light:hover {
+    background-color: #f8f9fa;
+    border-color: #cecece;
+}
